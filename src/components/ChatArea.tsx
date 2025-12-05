@@ -5,7 +5,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { useChatStore } from '@/store/chatStore';
-import { Attachment, AnalysisResult, Message } from '@/types/chat';
+import { Attachment, AnalysisResult } from '@/types/chat';
+import { WelcomeScreen } from './WelcomeScreen';
 
 interface ChatAreaProps {
   onOpenVisualizations: () => void;
@@ -111,7 +112,7 @@ export function ChatArea({ onOpenVisualizations }: ChatAreaProps) {
     setIsAnalyzing,
     setCurrentAnalysis,
   } = useChatStore();
-  
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const currentChat = chats.find(c => c.id === activeChat);
 
@@ -176,7 +177,7 @@ export function ChatArea({ onOpenVisualizations }: ChatAreaProps) {
     // Simulate analysis
     setTimeout(() => {
       const analysis = generateMockAnalysis();
-      
+
       addMessage(activeChat, {
         role: 'assistant',
         content: `J'ai analysé le contenu que vous avez soumis. Voici mon évaluation basée sur la méthode NIRD de vérification des faits.`,
@@ -186,7 +187,7 @@ export function ChatArea({ onOpenVisualizations }: ChatAreaProps) {
       if (userSettings.display.dualView) {
         setCurrentAnalysis(analysis);
       }
-      
+
       setIsAnalyzing(false);
     }, 2000);
   };
@@ -205,7 +206,7 @@ export function ChatArea({ onOpenVisualizations }: ChatAreaProps) {
             {currentChat?.title || 'NIRD FakeCheck'}
           </h1>
         </div>
-        
+
         <div className="flex items-center gap-2">
           {isAuthenticated && (
             <Button
@@ -234,28 +235,34 @@ export function ChatArea({ onOpenVisualizations }: ChatAreaProps) {
 
       {/* Messages */}
       <ScrollArea className="flex-1" ref={scrollRef}>
-        <div className="max-w-3xl mx-auto py-4">
-          {currentChat?.messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
-          ))}
-          
-          {isAnalyzing && (
-            <div className="flex gap-4 p-4 bg-card/50">
-              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm text-muted-foreground animate-pulse">
-                  Analyse en cours... Vérification des sources et des faits.
-                </p>
-              </div>
-            </div>
+        <div className="max-w-3xl mx-auto py-4 h-full">
+          {!currentChat?.messages.length ? (
+            <WelcomeScreen />
+          ) : (
+            <>
+              {currentChat?.messages.map((message) => (
+                <ChatMessage key={message.id} message={message} />
+              ))}
+
+              {isAnalyzing && (
+                <div className="flex gap-4 p-4 bg-card/50">
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-muted-foreground animate-pulse">
+                      Analyse en cours... Vérification des sources et des faits.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </ScrollArea>
 
       {/* Input */}
-      <ChatInput 
+      <ChatInput
         onSubmit={handleSubmit}
         onAnalyze={handleAnalyze}
         disabled={isAnalyzing}

@@ -54,64 +54,9 @@ const defaultSettings: UserSettings = {
 const initialChats: Chat[] = [
   {
     id: generateId(),
-    title: 'Bienvenue sur NIRD FakeCheck',
+    title: 'Nouvelle conversation',
     category: 'general',
-    messages: [
-      {
-        id: generateId(),
-        role: 'assistant',
-        content: `# 🎓 Bienvenue sur NIRD FakeCheck
-
-> **Votre compagnon pédagogique pour développer l'esprit critique !**
-
----
-
-## 🎯 Objectif pédagogique
-
-Apprendre à distinguer **le vrai du faux** dans l'ère numérique
-
----
-
-## 💡 Compétences développées
-
-| Compétence | Description |
-|------------|-------------|
-| 🧠 **Analyse critique** | des sources d'information |
-| 🔍 **Vérification factuelle** | des affirmations |
-| 📊 **Évaluation de la fiabilité** | des contenus |
-| 🎯 **Développement du jugement** | personnel |
-
----
-
-## 🚀 Activités disponibles
-
-### 📝 Analyse de contenu
-Évaluez des textes, images ou liens
-
-### 📚 Exercices pédagogiques  
-Mettez en pratique vos apprentissages
-
-### 📈 Suivi des progrès
-Visualisez votre évolution
-
-### 👩‍🏫 Mode enseignant
-Créez des activités pour vos élèves
-
----
-
-## 💭 Conseil d'apprentissage
-
-> **Commencez par analyser un contenu qui vous semble suspect.**  
-> Je vous guiderai pas à pas dans le processus de vérification !
-
----
-
-## ✨ Que souhaitez-vous explorer aujourd'hui ?
-
-**Choisissez une action** ou posez-moi directement votre question ! 🚀`,
-        timestamp: new Date(),
-      },
-    ],
+    messages: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   },
